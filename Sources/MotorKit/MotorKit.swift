@@ -1,4 +1,4 @@
-import Motor
+@_exported import Motor
 import Foundation
 
 @objc(MotorKit)
