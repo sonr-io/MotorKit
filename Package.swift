@@ -32,7 +32,6 @@ let package = Package(
         .target(
             name: "MotorKit",
             dependencies: [
-                .product(name: "SwiftProtobuf", package: "swift-protobuf"),
                 "Motor"
             ]),
         .testTarget(

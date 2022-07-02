@@ -1,4 +1,4 @@
-@_exported import Motor
+@_exported import SonrMotor
 import Foundation
 
 @objc(MotorKit)
@@ -19,18 +19,18 @@ class MotorKit : NSObject {
       ]
     }
     
-    @objc func newWallet() -> Bool {
+    @objc func createAccount(buf:Data) -> Bool {
         if self.hasWallet {
             print("Wallet has already been created")
             return false
         }
         
         let error: NSErrorPointer = nil
-        let resp = SNRMotorNewWallet(error)
+        let resp = MotorCreateAccount(buf, error)
         if error != nil {
             return false
         }
-        self.hasWallet = resp
-        return resp
+                self.hasWallet = (resp != nil)
+        return (resp != nil)
     }
 }

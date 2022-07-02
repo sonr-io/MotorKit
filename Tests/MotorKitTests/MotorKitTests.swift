@@ -1,11 +1,11 @@
 import XCTest
 @testable import MotorKit
-@testable import Motor
+@testable import SonrMotor
 
 final class MotorKitTests: XCTestCase {
     func testNewWallet() {
         let error: NSErrorPointer = nil
-        guard SNRMotorNewWallet(error) else {
+        guard MotorNewWallet(error) else {
             XCTFail("Failed to create new wallet")
             return
         }
@@ -14,18 +14,18 @@ final class MotorKitTests: XCTestCase {
     
     func testLoadWallet() {
         let error: NSErrorPointer = nil
-        guard SNRMotorNewWallet(error) else {
+        guard MotorNewWallet(error) else {
             XCTFail("Failed to create new wallet")
             return
         }
         XCTAssertNil(error)
         
-        guard let buf = SNRMotorMarshalWallet() else {
+        guard let buf = MotorMarshalWallet() else {
             XCTFail("Buffer was not returned")
             return
         }
         
-        guard SNRMotorLoadWallet(buf, error) else{
+        guard MotorLoadWallet(buf, error) else{
             XCTFail("Wallet was not loaded" + error.debugDescription)
             return
         }
