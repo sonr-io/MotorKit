@@ -28,12 +28,18 @@ let package = Package(
             name: "Motor",
             path: "./Frameworks/Motor.xcframework"
         ),
+        
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "MotorKit",
             dependencies: [
-                "Motor"
-            ]),
+                "Motor",
+                .product(name: "SwiftProtobuf", package: "swift-protobuf")
+            ],
+            path: "./Sources/MotorKit"
+        ),
+
+            
         .testTarget(
             name: "MotorKitTests",
             dependencies: ["MotorKit", "Motor"]),
