@@ -43,24 +43,6 @@ import MotorKit
 let res = MotorKit.createAccount("super-secret-pasword", aesDscKey)
 ```
 
-
-## Development setup
-
-Describe how to install all development dependencies and how to run an automated test-suite of some kind. Potentially do this for multiple platforms.
-
-```sh
-make install
-```
-
-## To Do
-- [ ] Implement ExportWallet in Swift/Java/JS
-- [ ] Implement LoadWallet in Swift/Java/JS
-- [ ] Implement Address in Swift/Java/JS
-- [ ] Implement DidDoc in Swift/Java/JS
-- [ ] Implement ImportCredential in Swift/Java/JS
-- [ ] Implement Sign in Swift/Java/JS
-- [ ] Implement Verify in Swift/Java/JS
-
 ## Meta
 
 Sonr – [@sonr_io](https://twitter.com/sonr_io) – team@sonr.io

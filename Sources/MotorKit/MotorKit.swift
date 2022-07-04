@@ -32,9 +32,18 @@ class MotorKit : NSObject {
             return false
         }
         
+        var pubKey : SecKey
+        do {
+            let pk = try KeychainHelper.makeAndStoreKey(name: "io.sonr.motor.key1", requiresBiometry: true)
+            pubKey = SecKeyCopyPublicKey(pk)!
+        } catch {
+            return false
+        }
+        let data = pubKey as! Data
+        
         // Create Protobuf Request from Params
         var req = Sonrio_Motor_Registry_V1_CreateAccountRequest()
-        req.aesDscKey = aesDscKey
+        req.aesDscKey = data
         req.password = password
         
         // Serialize Request
