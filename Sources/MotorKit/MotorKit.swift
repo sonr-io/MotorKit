@@ -1,7 +1,7 @@
 @_exported import Motor
 import Foundation
 import SecurityExtensions
- 
+
 class MotorKit {
     static private func start() {
         let error: NSErrorPointer = nil
@@ -10,7 +10,7 @@ class MotorKit {
             print(error.debugDescription)
         }
     }
-    
+
     // Generate new Key
     //
     // The newKey() method generates a new SecKey with the given name-suffix and stores in the device Secure Enclave.
@@ -27,7 +27,7 @@ class MotorKit {
         }
         return pubKey
     }
-    
+
     // Load existing Key
     //
     // The loadKey() method returns a SecKey if it exists in the Device Secure Enclave.
@@ -35,7 +35,7 @@ class MotorKit {
         let keyName = "io.sonr.motor." + name
         return KeychainHelper.loadKey(name: keyName)
     }
-    
+
     // Remove existing Key
     //
     // The removeKey() method returns True if the Key is succesfully removed from the KeyChain
@@ -43,7 +43,7 @@ class MotorKit {
         let keyName = "io.sonr.motor." + name
         return KeychainHelper.removeKey(name: keyName)
     }
-    
+
     // Create a new Account
     //
     // The createAccount() method takes the input of a Vault password and aesDscKey to:
@@ -60,8 +60,8 @@ class MotorKit {
         }else {
             return nil
         }
-        
-        
+
+
         // Serialize Request
         var buf : Data
         do {
@@ -70,7 +70,7 @@ class MotorKit {
             print("Failed to marshal request with protobuf.")
             return ""
         }
-        
+
         // Call Method handle error
         let error: NSErrorPointer = nil
         let rawResp = SNRMotorCreateAccount(buf, error)
@@ -78,7 +78,7 @@ class MotorKit {
             print(error.debugDescription)
             return nil
         }
-        
+
         // Check Response
         if let respBuf = rawResp {
             var resp : Sonrio_Motor_Registry_V1_CreateAccountResponse
