@@ -2,8 +2,7 @@
 import LocalAuthentication
 @_exported import SecurityExtensions
 
-public class KeychainHelper {
-    
+class KeychainHelper {
     private init() {}       // pure helper, disable instantiation
     
     static func getPwSecAccessControl() -> SecAccessControl {

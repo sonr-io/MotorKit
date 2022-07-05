@@ -14,7 +14,7 @@ public class MotorKit {
     // Generate new Key
     //
     // The newKey() method generates a new SecKey with the given name-suffix and stores in the device Secure Enclave.
-    static func newKey(name : String, useBiometrics : Bool = true) -> SecKey? {        
+    public static func newKey(name : String, useBiometrics : Bool = true) -> SecKey? {
         let keyName = "io.sonr.motor." + name
         var pubKey : SecKey
         do {
@@ -30,7 +30,7 @@ public class MotorKit {
     // Load existing Key
     //
     // The loadKey() method returns a SecKey if it exists in the Device Secure Enclave.
-    static func loadKey(name : String) -> SecKey? {
+    public static func loadKey(name : String) -> SecKey? {
         let keyName = "io.sonr.motor." + name
         return KeychainHelper.loadKey(name: keyName)
     }
@@ -38,7 +38,7 @@ public class MotorKit {
     // Remove existing Key
     //
     // The removeKey() method returns True if the Key is succesfully removed from the KeyChain
-    static func removeKey(name : String) -> Bool {
+    public static func removeKey(name : String) -> Bool {
         let keyName = "io.sonr.motor." + name
         return KeychainHelper.removeKey(name: keyName)
     }
@@ -49,7 +49,7 @@ public class MotorKit {
     //    1. Generate a new Wallet
     //    2. Request Faucet for Tokens
     //    3. Create a new WhoIs record for this user
-    static func createAccount(password : String, dscKey : SecKey) -> String? {
+    public static func createAccount(password : String, dscKey : SecKey) -> String? {
         MotorKit.start()
         // Create Protobuf Request from Params
         var req = Sonrio_Motor_Registry_V1_CreateAccountRequest()

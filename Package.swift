@@ -12,7 +12,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "MotorKit",
-            targets: ["MotorKit", "Motor"]
+            targets: ["MotorKit", "Motor", "SecurityExtensions"]
         ),
         
     ],
@@ -38,8 +38,7 @@ let package = Package(
             name: "MotorKit",
             dependencies: [
                 "Motor",
-                "SecurityExtensions",
-                .product(name: "SwiftProtobuf", package: "swift-protobuf")
+                "SecurityExtensions",                .product(name: "SwiftProtobuf", package: "swift-protobuf")
             ],
             path: "./Sources/MotorKit"
         ),
