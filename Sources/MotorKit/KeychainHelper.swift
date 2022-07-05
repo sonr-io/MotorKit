@@ -2,7 +2,7 @@
 import LocalAuthentication
 @_exported import SecurityExtensions
 
-class KeychainHelper {
+public class KeychainHelper {
     
     private init() {}       // pure helper, disable instantiation
     

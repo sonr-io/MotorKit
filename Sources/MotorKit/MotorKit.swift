@@ -1,8 +1,8 @@
-@_exported import Motor
+import Motor
 import Foundation
 import SecurityExtensions
 
-class MotorKit {
+public class MotorKit {
     static private func start() {
         let error: NSErrorPointer = nil
         SNRMotorInit(error)
@@ -14,8 +14,7 @@ class MotorKit {
     // Generate new Key
     //
     // The newKey() method generates a new SecKey with the given name-suffix and stores in the device Secure Enclave.
-    static func newKey(name : String, useBiometrics : Bool = true) -> SecKey? {
-        MotorKit.start()
+    static func newKey(name : String, useBiometrics : Bool = true) -> SecKey? {        
         let keyName = "io.sonr.motor." + name
         var pubKey : SecKey
         do {
