@@ -20,6 +20,10 @@ let package = Package(
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-protobuf.git", .upToNextMajor(from: "1.0.0")),
+        .package(
+            url: "https://github.com/iosdevzone/IDZSwiftCommonCrypto",
+            from: "0.13.1"
+        )
         
     ],
     targets: [
@@ -34,12 +38,18 @@ let package = Package(
             name: "MotorKit",
             dependencies: [
                 "Motor",
+                "SecurityExtensions",
                 .product(name: "SwiftProtobuf", package: "swift-protobuf")
-            ],
-            path: "./Sources/MotorKit"
+            ]
         ),
-
-            
+        // Targets can depend on other targets in this package, and on products in packages this package depends on.
+        .target(
+            name: "SecurityExtensions",
+            dependencies: [
+                "IDZSwiftCommonCrypto"
+                          ],
+            path: "./Sources/SecurityExtensions"
+        ),
         .testTarget(
             name: "MotorKitTests",
             dependencies: ["MotorKit", "Motor"]),

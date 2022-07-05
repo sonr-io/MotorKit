@@ -1,5 +1,6 @@
 
 import LocalAuthentication
+@_exported import SecurityExtensions
 
 class KeychainHelper {
     
@@ -152,8 +153,8 @@ class KeychainHelper {
     // MARK: Storing keys in the keychain
     
     static func makeAndStoreKey(name: String,
-                                requiresBiometry: Bool = false) throws -> SecKey {
-        removeKey(name: name)
+                                requiresBiometry: Bool = true) throws -> SecKey {
+        let _ = removeKey(name: name)
 
         let flags: SecAccessControlCreateFlags
         if #available(iOS 11.3, *) {
@@ -205,15 +206,14 @@ class KeychainHelper {
         return (item as! SecKey)
     }
     
-    static func removeKey(name: String) {
+    static func removeKey(name: String) -> Bool {
         let tag = name.data(using: .utf8)!
         let query: [String: Any] = [
             kSecClass as String                 : kSecClassKey,
             kSecAttrApplicationTag as String    : tag
         ]
 
-        SecItemDelete(query as CFDictionary)
+        let result = SecItemDelete(query as CFDictionary)
+        return result == errSecSuccess
     }
-
-    
 }

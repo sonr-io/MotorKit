@@ -12,6 +12,12 @@ final class MotorKitTests: XCTestCase {
         XCTAssertNil(error)
     }
     
+    func testCreateAccount() {
+        let instance = MotorKit();
+        let result = instance.createAccount(password: "Test")
+        XCTAssertTrue(result)
+    }
+    
     func testLoadWallet() {
         let error: NSErrorPointer = nil
         guard MotorNewWallet(error) else {

@@ -1,5 +1,6 @@
 @_exported import SonrMotor
 import Foundation
+@_exported import SecurityExtensions
 
 @objc(MotorKit) 
 class MotorKit : NSObject {
@@ -25,7 +26,7 @@ class MotorKit : NSObject {
     //    1. Generate a new Wallet
     //    2. Request Faucet for Tokens
     //    3. Create a new WhoIs record for this user
-    @objc func createAccount(password : String, aesDscKey : Data) -> Bool {
+    @objc func createAccount(password : String) -> Bool {
         // Check if Wallet exists
         if self.hasWallet {
             print("Wallet has already been created")
