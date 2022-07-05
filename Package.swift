@@ -48,7 +48,8 @@ let package = Package(
             dependencies: [
                 "IDZSwiftCommonCrypto"
                           ],
-            path: "./Sources/SecurityExtensions"
+            path: "./Sources/SecurityExtensions",
+            exclude: ["Info.plist"]
         ),
         .testTarget(
             name: "MotorKitTests",

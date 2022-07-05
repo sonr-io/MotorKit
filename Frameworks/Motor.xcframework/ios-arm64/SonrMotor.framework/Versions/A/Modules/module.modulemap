@@ -1,8 +1,0 @@
-framework module "SonrMotor" {
-	header "ref.h"
-    header "Motor.objc.h"
-    header "Universe.objc.h"
-    header "SonrMotor.h"
-
-    export *
-}
