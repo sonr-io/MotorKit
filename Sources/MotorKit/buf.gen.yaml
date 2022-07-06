@@ -1,0 +1,10 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/sonr-io/motor-flutter
+plugins:
+  - remote: buf.build/cfacorp/plugins/swift-protobuf:v1.19.0-1
+    out: Types
+    opt:
+      - FileNaming=DropPath

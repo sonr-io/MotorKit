@@ -43,7 +43,8 @@ let package = Package(
                 "Valet",
                 .product(name: "SwiftProtobuf", package: "swift-protobuf")
             ],
-            path: "./Sources/MotorKit"
+            path: "./Sources/MotorKit",
+            exclude: ["buf.gen.yaml"]
         ),
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(

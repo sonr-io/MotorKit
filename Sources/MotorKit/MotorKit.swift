@@ -37,7 +37,18 @@ public class MotorKit {
         DispatchQueue.global(qos: .userInitiated).async {
             print("This is run on a background queue")
             let error: NSErrorPointer = nil
-            SNRMotorInit(error)
+            var req = Sonrio_Motor_Api_V1_InitializeRequest()
+            req.deviceID
+            // Serialize Request
+            var buf : Data
+            do {
+                buf = try req.jsonUTF8Data()
+            } catch {
+                print("Failed to marshal request with protobuf.")
+                return
+            }
+
+            SNRMotorInit(buf, error)
             DispatchQueue.main.async {
                 print("This is run on the main queue, after the previous code in outer block")
                 if error != nil {
@@ -57,8 +68,8 @@ public class MotorKit {
     public func createAccount(password : String) -> String? {
         // Create Protobuf Request from Params
         let privKey = CryptoKit.P256.KeyAgreement.PrivateKey()
-        var req = Sonrio_Motor_Registry_V1_CreateAccountRequest()
-        req.aesDscKey = privKey.publicKey.rawRepresentation
+        var req = Sonrio_Motor_Api_V1_CreateAccountRequest()
+        req.signedDscShard = privKey.publicKey.rawRepresentation
         req.password = password
 
         // Store generated private key in keychain
@@ -87,9 +98,9 @@ public class MotorKit {
 
         // Check Response
         if let respBuf = rawResp {
-            var resp : Sonrio_Motor_Registry_V1_CreateAccountResponse
+            var resp : Sonrio_Motor_Api_V1_CreateAccountResponse
             do {
-                resp = try Sonrio_Motor_Registry_V1_CreateAccountResponse(jsonUTF8Data: respBuf)
+                resp = try Sonrio_Motor_Api_V1_CreateAccountResponse(jsonUTF8Data: respBuf)
             }catch {
                 print("Failed to marshal request with protobuf")
                 return nil

@@ -11,4 +11,10 @@ tasks:
     summary: "Update Local xcFramework with newly built xcFramework"
     dir: ../
     cmds:
-      - find sonr/build/motorlib-ios -type d -name "Motor.xcframework" -exec mv '{}' MotorKit/Frameworks/Motor.xcframework \;
+      - find sonr/build -type d -name "Motor.xcframework" -exec mv '{}' MotorKit/Frameworks/Motor.xcframework \;
+
+  update:buf:
+    summary: Update protocol buffers
+    dir: ./Sources/MotorKit
+    cmds:
+      - buf generate buf.build/sonr-io/motor
