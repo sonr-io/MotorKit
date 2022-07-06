@@ -2,6 +2,9 @@ import Motor
 import Foundation
 import SecurityExtensions
 import Valet
+import CryptoKit
+
+let kDeviceSharedKey : String = "DEVICE_SHARED_KEY"
 
 public class MotorKit {
     public var state : MotorState
@@ -18,26 +21,30 @@ public class MotorKit {
         secureEnclave = SecureEnclaveValet.valet(with: Identifier(nonEmpty: "io.sonr.motor")!, accessControl: .userPresence)
         if !secureEnclave.canAccessKeychain() {
             state = MotorState.unsupported
+            return
         }
         
-        var hasRecord : Bool
+        state = MotorState.unrecognized
         do {
-            hasRecord = try secureEnclave.containsObject(forKey: "")
+            let hasRecord = try secureEnclave.containsObject(forKey: kDeviceSharedKey)
+            if hasRecord {
+                state = MotorState.unauthorized
+            }
         }catch {
-            hasRecord = false
+            print("Failed to fetch record")
         }
         
-        if hasRecord {
-            state = MotorState.unauthorized
-        }else{
-            state = MotorState.unrecognized
-        }
-        
-        let error: NSErrorPointer = nil
-        SNRMotorInit(error)
-        if error != nil {
-            print(error.debugDescription)
-            state = MotorState.failedToStart
+        DispatchQueue.global(qos: .userInitiated).async {
+            print("This is run on a background queue")
+            let error: NSErrorPointer = nil
+            SNRMotorInit(error)
+            DispatchQueue.main.async {
+                print("This is run on the main queue, after the previous code in outer block")
+                if error != nil {
+                    print(error.debugDescription)
+                    self.state = MotorState.failedToStart
+                }
+            }
         }
     }
 
@@ -47,17 +54,20 @@ public class MotorKit {
     //    1. Generate a new Wallet
     //    2. Request Faucet for Tokens
     //    3. Create a new WhoIs record for this user
-    public func createAccount(password : String, dscKey : SecKey) -> String? {
+    public func createAccount(password : String) -> String? {
         // Create Protobuf Request from Params
+        let privKey = CryptoKit.P256.KeyAgreement.PrivateKey()
         var req = Sonrio_Motor_Registry_V1_CreateAccountRequest()
-        if let pubKey = dscKey.keyData {
-            req.aesDscKey = Data(pubKey)
-            req.password = password
-        }else {
-            return nil
+        req.aesDscKey = privKey.publicKey.rawRepresentation
+        req.password = password
+
+        // Store generated private key in keychain
+        do {
+            try secureEnclave.setObject(privKey.rawRepresentation, forKey: kDeviceSharedKey)
+        }catch {
+            print("Failed to set privKey in Keychain")
         }
-
-
+        
         // Serialize Request
         var buf : Data
         do {
