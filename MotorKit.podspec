@@ -11,5 +11,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '12.0'
   s.swift_version = '5.0'
   s.vendored_frameworks = 'Frameworks/Motor.xcframework'
-  s.source_files = 'Sources/MotorKit/**/*'
+  s.source_files = 'Sources/**/*'
 end
