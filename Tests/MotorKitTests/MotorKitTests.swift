@@ -4,12 +4,10 @@ import XCTest
 
 final class MotorKitTests: XCTestCase {
     func testCreateAccount() {
-        let key = MotorKit.newKey(name: "test")
-        if let pk = key {
-            let result = MotorKit.createAccount(password: "Test", dscKey: pk)
-             XCTAssertNil(result)
-        }else{
-            XCTFail()
-        }
+        let motor = MotorKit()
+        let key = SecKey.create(withData:
+                                    [UInt8()])
+        let result = motor.createAccount(password: "password", dscKey: key!)
+        XCTAssertNil(result)
     }
 }

@@ -23,7 +23,8 @@ let package = Package(
         .package(
             url: "https://github.com/iosdevzone/IDZSwiftCommonCrypto",
             from: "0.13.1"
-        )
+        ),
+        .package(url: "https://github.com/square/Valet.git", .upToNextMajor(from: "4.1.2"))
         
     ],
     targets: [
@@ -38,7 +39,9 @@ let package = Package(
             name: "MotorKit",
             dependencies: [
                 "Motor",
-                "SecurityExtensions",                .product(name: "SwiftProtobuf", package: "swift-protobuf")
+                "SecurityExtensions",
+                "Valet",
+                .product(name: "SwiftProtobuf", package: "swift-protobuf")
             ],
             path: "./Sources/MotorKit"
         ),

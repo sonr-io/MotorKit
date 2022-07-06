@@ -1,46 +1,44 @@
 import Motor
 import Foundation
 import SecurityExtensions
+import Valet
 
 public class MotorKit {
-    static private func start() {
+    public var state : MotorState
+    private var secureEnclave : SecureEnclaveValet
+    
+    // Initializer Function
+    //
+    // 1. Sets up Secure Enclave
+    // 2. Checks if Keychain contains motor record
+    // 3. Passes record to Bridge
+    // 4. Updates state
+    public init() {
+        // Setup Secure enclave
+        secureEnclave = SecureEnclaveValet.valet(with: Identifier(nonEmpty: "io.sonr.motor")!, accessControl: .userPresence)
+        if !secureEnclave.canAccessKeychain() {
+            state = MotorState.unsupported
+        }
+        
+        var hasRecord : Bool
+        do {
+            hasRecord = try secureEnclave.containsObject(forKey: "")
+        }catch {
+            hasRecord = false
+        }
+        
+        if hasRecord {
+            state = MotorState.unauthorized
+        }else{
+            state = MotorState.unrecognized
+        }
+        
         let error: NSErrorPointer = nil
         SNRMotorInit(error)
         if error != nil {
             print(error.debugDescription)
+            state = MotorState.failedToStart
         }
-    }
-
-    // Generate new Key
-    //
-    // The newKey() method generates a new SecKey with the given name-suffix and stores in the device Secure Enclave.
-    public static func newKey(name : String, useBiometrics : Bool = true) -> SecKey? {
-        let keyName = "io.sonr.motor." + name
-        var pubKey : SecKey
-        do {
-            let pk = try KeychainHelper.makeAndStoreKey(name: keyName, requiresBiometry: useBiometrics)
-            pubKey = SecKeyCopyPublicKey(pk)!
-        } catch {
-            print("Failed to create new key")
-            return nil
-        }
-        return pubKey
-    }
-
-    // Load existing Key
-    //
-    // The loadKey() method returns a SecKey if it exists in the Device Secure Enclave.
-    public static func loadKey(name : String) -> SecKey? {
-        let keyName = "io.sonr.motor." + name
-        return KeychainHelper.loadKey(name: keyName)
-    }
-
-    // Remove existing Key
-    //
-    // The removeKey() method returns True if the Key is succesfully removed from the KeyChain
-    public static func removeKey(name : String) -> Bool {
-        let keyName = "io.sonr.motor." + name
-        return KeychainHelper.removeKey(name: keyName)
     }
 
     // Create a new Account
@@ -49,8 +47,7 @@ public class MotorKit {
     //    1. Generate a new Wallet
     //    2. Request Faucet for Tokens
     //    3. Create a new WhoIs record for this user
-    public static func createAccount(password : String, dscKey : SecKey) -> String? {
-        MotorKit.start()
+    public func createAccount(password : String, dscKey : SecKey) -> String? {
         // Create Protobuf Request from Params
         var req = Sonrio_Motor_Registry_V1_CreateAccountRequest()
         if let pubKey = dscKey.keyData {
