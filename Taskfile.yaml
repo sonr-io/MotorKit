@@ -1,0 +1,14 @@
+version: "3"
+
+vars:
+  VERSION: v0.0.1-test
+
+tasks:
+  ## ------------------------------------------------------------
+  ## Node tasks
+  ## ------------------------------------------------------------
+  update:local:
+    summary: "Update Local xcFramework with newly built xcFramework"
+    dir: ../
+    cmds:
+      - find sonr/build/motorlib-ios -type d -name "Motor.xcframework" -exec mv '{}' MotorKit/Frameworks/Motor.xcframework \;

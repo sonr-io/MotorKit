@@ -23,6 +23,6 @@ FOUNDATION_EXPORT NSData* _Nullable SNRMotorCreateAccount(NSData* _Nullable buf,
  */
 FOUNDATION_EXPORT NSString* _Nonnull SNRMotorDidDoc(void);
 
-FOUNDATION_EXPORT BOOL SNRMotorInit(NSError* _Nullable* _Nullable error);
+FOUNDATION_EXPORT NSData* _Nullable SNRMotorInit(NSData* _Nullable buf, NSError* _Nullable* _Nullable error);
 
 #endif

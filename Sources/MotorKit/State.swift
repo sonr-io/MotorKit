@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Prad Nukala on 7/6/22.
 //
@@ -19,7 +19,7 @@ public extension MotorState {
     func getTitleMessage() -> String {
         return String(describing: self).uppercased(with: Locale.current)
     }
-    
+
     func getDescriptionMessage() -> String {
         switch self {
         case .unsupported:

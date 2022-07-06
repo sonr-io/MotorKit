@@ -9,7 +9,7 @@ let kDeviceSharedKey : String = "DEVICE_SHARED_KEY"
 public class MotorKit {
     public var state : MotorState
     private var secureEnclave : SecureEnclaveValet
-    
+
     // Initializer Function
     //
     // 1. Sets up Secure Enclave
@@ -23,7 +23,7 @@ public class MotorKit {
             state = MotorState.unsupported
             return
         }
-        
+
         state = MotorState.unrecognized
         do {
             let hasRecord = try secureEnclave.containsObject(forKey: kDeviceSharedKey)
@@ -33,7 +33,7 @@ public class MotorKit {
         }catch {
             print("Failed to fetch record")
         }
-        
+
         DispatchQueue.global(qos: .userInitiated).async {
             print("This is run on a background queue")
             let error: NSErrorPointer = nil
@@ -67,7 +67,7 @@ public class MotorKit {
         }catch {
             print("Failed to set privKey in Keychain")
         }
-        
+
         // Serialize Request
         var buf : Data
         do {

@@ -14,7 +14,7 @@ let package = Package(
             name: "MotorKit",
             targets: ["MotorKit", "Motor", "SecurityExtensions"]
         ),
-        
+
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -25,7 +25,7 @@ let package = Package(
             from: "0.13.1"
         ),
         .package(url: "https://github.com/square/Valet.git", .upToNextMajor(from: "4.1.2"))
-        
+
     ],
     targets: [
         // Targets are the basic building blocks of a package. A target can define a module or a test suite.\
@@ -33,7 +33,7 @@ let package = Package(
             name: "Motor",
             path: "./Frameworks/Motor.xcframework"
         ),
-        
+
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "MotorKit",
