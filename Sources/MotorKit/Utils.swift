@@ -13,10 +13,9 @@ import CryptoKit
 func newCreateAccountRequest(secureEnclave : SecureEnclaveValet, password: String) -> Data? {
     // Create Protobuf Request from Params
     let privKey = CryptoKit.P256.KeyAgreement.PrivateKey()
-    // let pubKey = privKey.publicKey
     
     var req = Sonrio_Motor_Api_V1_CreateAccountRequest()
-    req.signedDscShard = privKey.publicKey.rawRepresentation
+    req.aesDscKey = privKey.publicKey.rawRepresentation
     req.password = password
 
     // Store generated private key in keychain

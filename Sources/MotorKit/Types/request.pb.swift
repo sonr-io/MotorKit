@@ -164,7 +164,7 @@ struct Sonrio_Motor_Api_V1_CreateAccountRequest {
 
   var password: String = String()
 
-  var signedDscShard: Data = Data()
+  var aesDscKey: Data = Data()
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -361,7 +361,7 @@ extension Sonrio_Motor_Api_V1_CreateAccountRequest: SwiftProtobuf.Message, Swift
   static let protoMessageName: String = _protobuf_package + ".CreateAccountRequest"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
     1: .same(proto: "password"),
-    2: .standard(proto: "signed_dsc_shard"),
+    2: .standard(proto: "aes_dsc_key"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -371,7 +371,7 @@ extension Sonrio_Motor_Api_V1_CreateAccountRequest: SwiftProtobuf.Message, Swift
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
       case 1: try { try decoder.decodeSingularStringField(value: &self.password) }()
-      case 2: try { try decoder.decodeSingularBytesField(value: &self.signedDscShard) }()
+      case 2: try { try decoder.decodeSingularBytesField(value: &self.aesDscKey) }()
       default: break
       }
     }
@@ -381,15 +381,15 @@ extension Sonrio_Motor_Api_V1_CreateAccountRequest: SwiftProtobuf.Message, Swift
     if !self.password.isEmpty {
       try visitor.visitSingularStringField(value: self.password, fieldNumber: 1)
     }
-    if !self.signedDscShard.isEmpty {
-      try visitor.visitSingularBytesField(value: self.signedDscShard, fieldNumber: 2)
+    if !self.aesDscKey.isEmpty {
+      try visitor.visitSingularBytesField(value: self.aesDscKey, fieldNumber: 2)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Sonrio_Motor_Api_V1_CreateAccountRequest, rhs: Sonrio_Motor_Api_V1_CreateAccountRequest) -> Bool {
     if lhs.password != rhs.password {return false}
-    if lhs.signedDscShard != rhs.signedDscShard {return false}
+    if lhs.aesDscKey != rhs.aesDscKey {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
