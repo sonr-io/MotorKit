@@ -31,8 +31,6 @@ public class MotorKit {
             let buf = newInitializeRequest()
             if buf != nil {
                 let rawResp = SNRMotorInit(buf, error)
-                
-      
                 DispatchQueue.main.async {
                     print("This is run on the main queue, after the previous code in outer block")
                     if error != nil {
@@ -69,6 +67,7 @@ public class MotorKit {
         let buf = newCreateAccountRequest(secureEnclave: secureEnclave, password: password)
         if buf != nil {
             let error: NSErrorPointer = nil
+            
             let rawResp = SNRMotorCreateAccount(buf, error)
             if error != nil {
                 print(error.debugDescription)

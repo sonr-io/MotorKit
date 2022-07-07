@@ -22,7 +22,7 @@ func newCreateAccountRequest(secureEnclave : SecureEnclaveValet, password: Strin
     do {
         try secureEnclave.setObject(privKey.rawRepresentation, forKey: kDeviceSharedKey)
     }catch {
-        print("Failed to set privKey in Keychain")
+        print("Failed to set privKey in Keychain. Biometrics unavailable")
     }
 
     // Serialize Request
