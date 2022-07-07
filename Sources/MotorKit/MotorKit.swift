@@ -90,4 +90,12 @@ public class MotorKit {
         // No response returned
         return nil
     }
+    
+    public func getAddress() -> String {
+        return SNRMotorAddress()
+    }
+    
+    public func getBalance() -> Int {
+        return SNRMotorBalance()
+    }
 }

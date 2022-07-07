@@ -16,6 +16,11 @@
  */
 FOUNDATION_EXPORT NSString* _Nonnull SNRMotorAddress(void);
 
+/**
+ * Balance returns the balance of the wallet.
+ */
+FOUNDATION_EXPORT long SNRMotorBalance(void);
+
 FOUNDATION_EXPORT NSData* _Nullable SNRMotorCreateAccount(NSData* _Nullable buf, NSError* _Nullable* _Nullable error);
 
 /**
