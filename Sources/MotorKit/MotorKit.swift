@@ -7,10 +7,8 @@ import CryptoKit
 let kDeviceSharedKey : String = "DEVICE_SHARED_KEY"
 
 public class MotorKit {
-    public var address : String
     public var state : MotorState
     private var secureEnclave : SecureEnclaveValet
-    private var dscShardRaw : String
 
     // Initializer Function
     //
@@ -22,8 +20,6 @@ public class MotorKit {
         // Setup Secure enclave
         secureEnclave = SecureEnclaveValet.valet(with: Identifier(nonEmpty: "io.sonr.motor")!, accessControl: .userPresence)
         state = currentMotorState(secureEnclave: secureEnclave)
-        address = ""
-        dscShardRaw = ""
         
         DispatchQueue.global(qos: .userInitiated).async {
             print("This is run on a background queue")
@@ -44,8 +40,7 @@ public class MotorKit {
                         var resp : Sonrio_Motor_Api_V1_InitializeResponse
                         do {
                             resp = try Sonrio_Motor_Api_V1_InitializeResponse(jsonUTF8Data: respBuf)
-                            self.address = resp.address
-                            self.dscShardRaw = resp.dscShardRaw
+                            print(resp.success)
                         }catch {
                             print("Failed to marshal request with protobuf")
                             return
@@ -91,12 +86,7 @@ public class MotorKit {
         return nil
     }
     
-    // Create a new Account
-    //
-    // The createAccount() method takes the input of a Vault password and aesDscKey to:
-    //    1. Generate a new Wallet
-    //    2. Request Faucet for Tokens
-    //    3. Create a new WhoIs record for this user
+    // Login to an existing account
     public func loginAccount(did : String, password : String?, dscKey: Data?, pskKey: Data?) -> Bool {
         let buf = newLoginRequest(did: did, password: password, dscKey: dscKey, pskKey: pskKey)
         if buf != nil {
