@@ -25,11 +25,7 @@ struct Sonrio_Motor_Api_V1_InitializeResponse {
   // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
   // methods supported on all messages.
 
-  var isExisting: Bool = false
-
-  var address: String = String()
-
-  var dscShardRaw: String = String()
+  var success: Bool = false
 
   var unknownFields = SwiftProtobuf.UnknownStorage()
 
@@ -52,9 +48,22 @@ struct Sonrio_Motor_Api_V1_CreateAccountResponse {
   init() {}
 }
 
+struct Sonrio_Motor_Api_V1_LoginResponse {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var success: Bool = false
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension Sonrio_Motor_Api_V1_InitializeResponse: @unchecked Sendable {}
 extension Sonrio_Motor_Api_V1_CreateAccountResponse: @unchecked Sendable {}
+extension Sonrio_Motor_Api_V1_LoginResponse: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -64,9 +73,7 @@ fileprivate let _protobuf_package = "sonrio.motor.api.v1"
 extension Sonrio_Motor_Api_V1_InitializeResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
   static let protoMessageName: String = _protobuf_package + ".InitializeResponse"
   static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
-    1: .standard(proto: "is_existing"),
-    2: .same(proto: "address"),
-    3: .standard(proto: "dsc_shard_raw"),
+    1: .same(proto: "success"),
   ]
 
   mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
@@ -75,31 +82,21 @@ extension Sonrio_Motor_Api_V1_InitializeResponse: SwiftProtobuf.Message, SwiftPr
       // allocates stack space for every case branch when no optimizations are
       // enabled. https://github.com/apple/swift-protobuf/issues/1034
       switch fieldNumber {
-      case 1: try { try decoder.decodeSingularBoolField(value: &self.isExisting) }()
-      case 2: try { try decoder.decodeSingularStringField(value: &self.address) }()
-      case 3: try { try decoder.decodeSingularStringField(value: &self.dscShardRaw) }()
+      case 1: try { try decoder.decodeSingularBoolField(value: &self.success) }()
       default: break
       }
     }
   }
 
   func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
-    if self.isExisting != false {
-      try visitor.visitSingularBoolField(value: self.isExisting, fieldNumber: 1)
-    }
-    if !self.address.isEmpty {
-      try visitor.visitSingularStringField(value: self.address, fieldNumber: 2)
-    }
-    if !self.dscShardRaw.isEmpty {
-      try visitor.visitSingularStringField(value: self.dscShardRaw, fieldNumber: 3)
+    if self.success != false {
+      try visitor.visitSingularBoolField(value: self.success, fieldNumber: 1)
     }
     try unknownFields.traverse(visitor: &visitor)
   }
 
   static func ==(lhs: Sonrio_Motor_Api_V1_InitializeResponse, rhs: Sonrio_Motor_Api_V1_InitializeResponse) -> Bool {
-    if lhs.isExisting != rhs.isExisting {return false}
-    if lhs.address != rhs.address {return false}
-    if lhs.dscShardRaw != rhs.dscShardRaw {return false}
+    if lhs.success != rhs.success {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }
@@ -144,6 +141,38 @@ extension Sonrio_Motor_Api_V1_CreateAccountResponse: SwiftProtobuf.Message, Swif
     if lhs.aesPsk != rhs.aesPsk {return false}
     if lhs.address != rhs.address {return false}
     if lhs.didDocument != rhs.didDocument {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Sonrio_Motor_Api_V1_LoginResponse: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".LoginResponse"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "success"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularBoolField(value: &self.success) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if self.success != false {
+      try visitor.visitSingularBoolField(value: self.success, fieldNumber: 1)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Sonrio_Motor_Api_V1_LoginResponse, rhs: Sonrio_Motor_Api_V1_LoginResponse) -> Bool {
+    if lhs.success != rhs.success {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

@@ -57,6 +57,33 @@ func newInitializeRequest(pubKey: Data? = nil) -> Data? {
     return buf
 }
 
+func newLoginRequest(did : String, password : String?, dscKey: Data?, pskKey: Data?) -> Data? {
+    var req = Sonrio_Motor_Api_V1_LoginRequest()
+    req.did = did
+    
+    if password != nil {
+        req.password = password!
+    }
+    
+    if dscKey != nil {
+        req.aesDscKey = dscKey!
+    }
+    
+    if pskKey != nil {
+        req.aesPskKey = pskKey!
+    }
+    
+    // Serialize Request
+    var buf : Data
+    do {
+        buf = try req.jsonUTF8Data()
+    } catch {
+        return nil
+    }
+
+    return buf
+}
+
 func getDocumentsDirectory() -> URL {
     let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
     let documentsDirectory = paths[0]

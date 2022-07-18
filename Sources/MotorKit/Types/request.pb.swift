@@ -171,12 +171,34 @@ struct Sonrio_Motor_Api_V1_CreateAccountRequest {
   init() {}
 }
 
+/// Login requires the DID of the account being logged into,
+/// and optionally a password if the vault pw is being used
+/// The PSK and DSC will be fetched from the keychain
+struct Sonrio_Motor_Api_V1_LoginRequest {
+  // SwiftProtobuf.Message conformance is added in an extension below. See the
+  // `Message` and `Message+*Additions` files in the SwiftProtobuf library for
+  // methods supported on all messages.
+
+  var did: String = String()
+
+  var password: String = String()
+
+  var aesDscKey: Data = Data()
+
+  var aesPskKey: Data = Data()
+
+  var unknownFields = SwiftProtobuf.UnknownStorage()
+
+  init() {}
+}
+
 #if swift(>=5.5) && canImport(_Concurrency)
 extension Sonrio_Motor_Api_V1_InitializeRequest: @unchecked Sendable {}
 extension Sonrio_Motor_Api_V1_InitializeRequest.HostOptions: @unchecked Sendable {}
 extension Sonrio_Motor_Api_V1_InitializeRequest.IPAddress: @unchecked Sendable {}
 extension Sonrio_Motor_Api_V1_InitializeRequest.IPAddress.Family: @unchecked Sendable {}
 extension Sonrio_Motor_Api_V1_CreateAccountRequest: @unchecked Sendable {}
+extension Sonrio_Motor_Api_V1_LoginRequest: @unchecked Sendable {}
 #endif  // swift(>=5.5) && canImport(_Concurrency)
 
 // MARK: - Code below here is support for the SwiftProtobuf runtime.
@@ -390,6 +412,56 @@ extension Sonrio_Motor_Api_V1_CreateAccountRequest: SwiftProtobuf.Message, Swift
   static func ==(lhs: Sonrio_Motor_Api_V1_CreateAccountRequest, rhs: Sonrio_Motor_Api_V1_CreateAccountRequest) -> Bool {
     if lhs.password != rhs.password {return false}
     if lhs.aesDscKey != rhs.aesDscKey {return false}
+    if lhs.unknownFields != rhs.unknownFields {return false}
+    return true
+  }
+}
+
+extension Sonrio_Motor_Api_V1_LoginRequest: SwiftProtobuf.Message, SwiftProtobuf._MessageImplementationBase, SwiftProtobuf._ProtoNameProviding {
+  static let protoMessageName: String = _protobuf_package + ".LoginRequest"
+  static let _protobuf_nameMap: SwiftProtobuf._NameMap = [
+    1: .same(proto: "did"),
+    2: .same(proto: "password"),
+    3: .standard(proto: "aes_dsc_key"),
+    4: .standard(proto: "aes_psk_key"),
+  ]
+
+  mutating func decodeMessage<D: SwiftProtobuf.Decoder>(decoder: inout D) throws {
+    while let fieldNumber = try decoder.nextFieldNumber() {
+      // The use of inline closures is to circumvent an issue where the compiler
+      // allocates stack space for every case branch when no optimizations are
+      // enabled. https://github.com/apple/swift-protobuf/issues/1034
+      switch fieldNumber {
+      case 1: try { try decoder.decodeSingularStringField(value: &self.did) }()
+      case 2: try { try decoder.decodeSingularStringField(value: &self.password) }()
+      case 3: try { try decoder.decodeSingularBytesField(value: &self.aesDscKey) }()
+      case 4: try { try decoder.decodeSingularBytesField(value: &self.aesPskKey) }()
+      default: break
+      }
+    }
+  }
+
+  func traverse<V: SwiftProtobuf.Visitor>(visitor: inout V) throws {
+    if !self.did.isEmpty {
+      try visitor.visitSingularStringField(value: self.did, fieldNumber: 1)
+    }
+    if !self.password.isEmpty {
+      try visitor.visitSingularStringField(value: self.password, fieldNumber: 2)
+    }
+    if !self.aesDscKey.isEmpty {
+      try visitor.visitSingularBytesField(value: self.aesDscKey, fieldNumber: 3)
+    }
+    if !self.aesPskKey.isEmpty {
+      try visitor.visitSingularBytesField(value: self.aesPskKey, fieldNumber: 4)
+    }
+    try unknownFields.traverse(visitor: &visitor)
+  }
+
+  static func ==(lhs: Sonrio_Motor_Api_V1_LoginRequest, rhs: Sonrio_Motor_Api_V1_LoginRequest) -> Bool {
+    if lhs.did != rhs.did {return false}
+    if lhs.password != rhs.password {return false}
+    if lhs.aesDscKey != rhs.aesDscKey {return false}
+    if lhs.aesPskKey != rhs.aesPskKey {return false}
     if lhs.unknownFields != rhs.unknownFields {return false}
     return true
   }

@@ -91,6 +91,37 @@ public class MotorKit {
         return nil
     }
     
+    // Create a new Account
+    //
+    // The createAccount() method takes the input of a Vault password and aesDscKey to:
+    //    1. Generate a new Wallet
+    //    2. Request Faucet for Tokens
+    //    3. Create a new WhoIs record for this user
+    public func loginAccount(did : String, password : String?, dscKey: Data?, pskKey: Data?) -> Bool {
+        let buf = newLoginRequest(did: did, password: password, dscKey: dscKey, pskKey: pskKey)
+        if buf != nil {
+            let error: NSErrorPointer = nil
+            let rawResp = SNRMotorLogin(buf, error)
+            if error != nil {
+                print(error.debugDescription)
+                return false
+            }
+            
+            // Check Response
+            if let respBuf = rawResp {
+                var resp : Sonrio_Motor_Api_V1_LoginResponse
+                do {
+                    resp = try Sonrio_Motor_Api_V1_LoginResponse(jsonUTF8Data: respBuf)
+                }catch {
+                    print("Failed to marshal request with protobuf")
+                    return false
+                }
+                return resp.success
+            }
+        }
+        return false
+    }
+    
     public func getAddress() -> String {
         return SNRMotorAddress()
     }
