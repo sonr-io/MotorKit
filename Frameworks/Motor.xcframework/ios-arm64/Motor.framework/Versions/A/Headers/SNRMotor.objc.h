@@ -30,4 +30,6 @@ FOUNDATION_EXPORT NSString* _Nonnull SNRMotorDidDoc(void);
 
 FOUNDATION_EXPORT NSData* _Nullable SNRMotorInit(NSData* _Nullable buf, NSError* _Nullable* _Nullable error);
 
+FOUNDATION_EXPORT NSData* _Nullable SNRMotorLogin(NSData* _Nullable buf, NSError* _Nullable* _Nullable error);
+
 #endif
